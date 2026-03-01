@@ -1,0 +1,171 @@
+index.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى أغلى إنسانة - شهودا</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0b0b;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        /* تأثير القلوب المتساقطة */
+        .heart {
+            position: absolute;
+            color: #d4af37;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 1px solid #d4af37;
+            background: rgba(15, 15, 15, 0.95);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+        h1 { color: #d4af37; margin-bottom: 25px; font-size: 1.8rem; }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #1a1a1a;
+            color: white;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #d4af37;
+            color: black;
+            border: none;
+            padding: 14px 30px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 15px;
+            transition: 0.3s ease;
+            font-size: 1.1rem;
+        }
+        button:hover { background-color: #b8962d; transform: translateY(-2px); }
+        #mainPage { display: none; }
+        
+        .message {
+            font-size: 1.15rem;
+            line-height: 2.2;
+            margin-top: 20px;
+            color: #e0e0e0;
+        }
+        #countdown {
+            font-size: 1.2rem;
+            color: #ff4d4d;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        #timer {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #d4af37;
+            letter-spacing: 1px;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+    <div id="loginPage" class="container">
+        <h1>خـاص بـشـهـودا</h1>
+        <input type="text" id="username" placeholder="اسم المستخدم">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <button onclick="accessGranted()">دخول</button>
+        <p id="error" style="color: #ff4d4d; display: none; margin-top: 15px;">البيانات المدخلة غير صحيحة</p>
+    </div>
+    <div id="mainPage" class="container">
+        <h1>كل عام وانتي بخير يا شهودا</h1>
+        <div class="message">
+            <p>كل عام وحبك بقلبي يزيد و يزيد</p>
+            <p>كل عام ودموعك ما تنزل الا لفرحة</p>
+            <p>كل عام وانت روحي وسر سعادتي وضحكتي</p>
+            <p style="color:#d4af37; font-weight: bold; margin-top: 15px;">اليوم يوم مميز.. اليوم عيد ميلاد اجمل واغلى واحلى انسانة بالكون</p>
+        </div>
+        
+        <div id="countdown">
+            <span>الوقت المتبقي حتى 2/3/2026:</span>
+            <span id="timer"></span>
+        </div>
+    </div>
+    <script>
+        // دالة إنشاء القلوب المتساقطة
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️'; // يمكنك تغييرها بـ '✨' أو '🌸'
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        function accessGranted() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const music = document.getElementById('bgMusic');
+            // شروط الدخول المطلوبة
+            if ((user === "بابا و شهودي") && pass === "27/12/2025") {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainPage').style.display = 'block';
+                
+                // تشغيل الموسيقى والقلوب
+                music.play();
+                setInterval(createHeart, 300);
+                
+                startCountdown();
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+        function startCountdown() {
+            const target = new Date("March 2, 2026 00:00:00").getTime();
+            setInterval(function() {
+                const now = new Date().getTime();
+                const diff = target - now;
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById("timer").innerHTML = `${d} يوم و ${h} ساعة و ${m} دقيقة و ${s} ثانية`;
+                if (diff < 0) {
+                    document.getElementById("timer").innerHTML = "انتهى الانتظار.. كل عام وأنتِ بخير!";
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
